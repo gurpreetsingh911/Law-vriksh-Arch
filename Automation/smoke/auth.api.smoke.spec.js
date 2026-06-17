@@ -6,10 +6,46 @@ const EMAIL = 'gpswazir@gmail.com';
 const PASS = 'ZXcvbnm@123';
 const DEVICE_ID = '11BwnGUw7gupnSkGW5h7PkGdoU3ueGx6dDU';
 const ENDPOINT = 'https://testing.lawvriksh.in/api/auth/login/';
+const LOGOUT = 'https://dev-api.lawvriksh.in/api/auth/logout';
 
 let response;
 
-// test('LGN-01: Successful login with valid credentials', async ({ request }) => {
+// 1. Login with correct credentials
+// 2. Login with incorrect credentials
+// 3. logout 
+
+
+
+// test('LGN-02: Failed login with invalid credentials', async ({ request }) => {
+//   response = await request.post(ENDPOINT, {
+
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json',
+//       'Referer': 'https://testing.lawvriksh.in/login', // Mimicking the browser
+//     },
+//     data: {
+//       request: {
+//         device_id: DEVICE_ID, // Use the ID from your logs
+//         email: 'gpswazir@gmail.com',
+//         password: 'wrongpassword',
+//         remember_me: false
+//       }
+//     }
+//   });
+
+//   expect(response.status()).toBe(401);
+
+
+//   // const data = await response.json();
+//   // console.log("responseBody:", data);
+
+
+// });
+
+
+
+// test('LGN-02: Not login with invalid credentials', async ({ request }) => {
 //   response = await request.post(ENDPOINT, {
 
 //     headers: {
@@ -37,7 +73,8 @@ let response;
 // });
 
 
-test('LGN-02: Failed login with invalid credentials', async ({ request }) => {
+test('LGN-03: Logout', async ({ request }) => {
+
   response = await request.post(ENDPOINT, {
 
     headers: {
@@ -48,22 +85,43 @@ test('LGN-02: Failed login with invalid credentials', async ({ request }) => {
     data: {
       request: {
         device_id: DEVICE_ID, // Use the ID from your logs
-        email: 'gpswazir@gmail.com',
-        password: 'wrongpassword',
+        email: EMAIL,
+        password: PASS,
         remember_me: false
       }
     }
   });
 
- expect(response.status()).toBe(401);
+  expect(response.status()).toBe(200);
+
+  const data = await response.json();
+  const token = data.access_token || data.refresh_token;  // token_type: 'bearer',
 
 
-  // const data = await response.json();
-  // console.log("responseBody:", data);
+  const logoutResponse = await request.post(LOGOUT, {
+
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+      'Referer': 'https://dev-api.lawvriksh.in/api/auth/logout', // Mimicking the browser
+    },
+    
+  });
+
+  console.log(`Logout Status Code: ${logoutResponse.status()}`);
+
+  // 3. Assertions to confirm the server accepted the logout request
+//  expect(logoutResponse.status()).toBe(200);
+  
+  const logoutData = await logoutResponse.json();
+  console.log("Logout Response Body:", logoutData);
+
+
 
 
 });
- 
+
 
 
 
