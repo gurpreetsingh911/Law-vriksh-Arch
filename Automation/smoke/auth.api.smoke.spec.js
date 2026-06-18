@@ -95,7 +95,7 @@ test('LGN-03: Logout', async ({ request }) => {
   expect(response.status()).toBe(200);
 
   const data = await response.json();
-  const token = data.access_token || data.refresh_token;  // token_type: 'bearer',
+  const token = data.access_token;  // token_type: 'bearer',
 
 
   const logoutResponse = await request.post(LOGOUT, {
@@ -106,16 +106,22 @@ test('LGN-03: Logout', async ({ request }) => {
       'Authorization': `Bearer ${token}`,
       'Referer': 'https://dev-api.lawvriksh.in/api/auth/logout', // Mimicking the browser
     },
-    
+
   });
 
   console.log(`Logout Status Code: ${logoutResponse.status()}`);
 
   // 3. Assertions to confirm the server accepted the logout request
-//  expect(logoutResponse.status()).toBe(200);
-  
-  const logoutData = await logoutResponse.json();
-  console.log("Logout Response Body:", logoutData);
+  expect(logoutResponse.status()).toBe(200);
+
+  // Safely check if the logout endpoint responds with JSON
+  const contentType = logoutResponse.headers()['content-type'];
+  if (contentType && contentType.includes('application/json')) {
+    const logoutData = await logoutResponse.json();
+    console.log("Logout Response Body:", logoutData);
+  } else {
+    console.log("Logout successful, raw text response:", await logoutResponse.text());
+  }
 
 
 

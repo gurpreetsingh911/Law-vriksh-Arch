@@ -1,40 +1,17 @@
-import { test, expect } from '@playwright/test';
-//import { apiPost, validateSuccess, validateLoginBody, validateSecurity, validateFailure } from 'Law-vriksh-Arch\utils\api-helper.js';
+// This verifies that the server can communicate with the main user database.
 
+// USR-01: Fetch logged-in user account settings
 
-const EMAIL = 'gpswazir@gmail.com';
-const PASS = 'ZXcvbnm@123';
-const DEVICE_ID = '11BwnGUw7gupnSkGW5h7PkGdoU3ueGx6dDU';
-const ENDPOINT = 'https://testing.lawvriksh.in/api/auth/login/';
+// What it does: Hits the endpoints related to your redirect path (/dashboard/user/settings).
 
-let response;
-
- test('LGN-03: Logout', async ({ request }) => {
-  response = await request.post('https://dev-api.lawvriksh.in/api/auth/logout', {
-
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Referer': 'https://dev-api.lawvriksh.in/api/auth/logout', // Mimicking the browser
-    },
-    data: {
-      request: {
-        device_id: DEVICE_ID, // Use the ID from your logs
-        email: EMAIL,
-        password: PASS,
-        remember_me: false
-      }
-    }
-  });
-
-  //expect(response.status()).toBe(200);
-
-
-  const data = await response.json();
-  console.log("responseBody:", data);
-
-
-});
+// Expectation: Returns a 200 OK code along with the corresponding profile fields (verifying that things like the user's name or configurations display correctly upon dashboard load).
 
 
 
+//https://dev-api.lawvriksh.in/dashboard/user/profile
+
+"profession": "Corporate Lawyer",
+            "email": "professional@lawvriksh.in",
+            "role": "professional",
+    "message": "User profile retrieved successfully",
+USR-01: Fetch logged-in user account settings
