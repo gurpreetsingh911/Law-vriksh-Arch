@@ -82,11 +82,4 @@ test('USR-01: Fetch logged-in user account settings', async ({ request }) => {
 
     console.log("responseBody:", message, profession, email);
   
-
-
-
-
-
-
-
 });
