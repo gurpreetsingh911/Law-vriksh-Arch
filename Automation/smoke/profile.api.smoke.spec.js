@@ -21,8 +21,8 @@ import { test, expect } from '@playwright/test';
 //import { apiPost, validateSuccess, validateLoginBody, validateSecurity, validateFailure } from 'Law-vriksh-Arch\utils\api-helper.js';
 
 
-const EMAIL = 'professional@lawvriksh.in';
-const PASS = 'Professional@123';
+const EMAIL = '';
+const PASS = '';
 const DEVICE_ID = '11BwnGUw7gupnSkGW5h7PkGdoU3ueGx6dDU';
 const ENDPOINT = 'https://dev-api.lawvriksh.in/api/auth/login';
 const USERPROFILE = 'https://dev-api.lawvriksh.in/api/users/profile';
